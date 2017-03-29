@@ -1,0 +1,16 @@
+#
+####### pyspeakrec requirements #######
+#
+###### Audio Requirements ######
+librosa
+pydub
+pyaudio
+
+###### Deep Learning Requirements ######
+tflearn
+
+###### Other Requirements ######
+seaborn 
+pandas
+numpy
+
