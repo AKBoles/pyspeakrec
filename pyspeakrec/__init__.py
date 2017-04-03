@@ -1,1 +1,1 @@
-# input the functions into this file?
+from pyspeakrec import *

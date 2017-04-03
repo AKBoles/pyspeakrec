@@ -4,19 +4,15 @@ import librosa
 import pydub
 import pyaudio
 import tflearn
-home_dir = '/home/cc/pyspeakrec/'
-sys.path.append(home_dir + 'Data/modules/')
-import speech_data
-import segment_data
-import record_audio
+import audio_manip
 
-# constants - directory, etc.
-# imput these according to operating system
-training_dir = home_dir + 'Data/train/audio/'
-training_seg = home_dir + 'Data/train/segment/'
-testing_dir = home_dir + 'Data/test/audio/'
-testing_seg = home_dir + 'Data/test/segment/'
-model_dir = home_dir + 'Data/model/'
+'''
+Need to turn into a function that can be used.
+'''
+
+# directories - for now
+testing_dir = sys.argv[1]
+testing_seg = sys.argv[2]
 
 # record for testing model - for now just doing one speaker test file, later create another python script for this
 # record audio, save to a file
@@ -31,10 +27,7 @@ if not os.listdir(testing_seg):
 Xtest = []
 for f in os.listdir(testing_seg):
     y, sr = librosa.load(testing_seg + f)
-    mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=20, hop_length=hop_length)
-    delta = librosa.feature.delta(mfcc)
-    delta2 = librosa.feature.delta(mfcc, order=2)
-    Xtest.append(np.c_[mfcc,delta,delta2])
+    Xtest.append(audio_manip.mfcc(y=y, sr=sr, num_mfcc=20, hop_length=128, delta=2)
 
 # load the trained model from model_dir
 model = DNN() # make sure this is correct
