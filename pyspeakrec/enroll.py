@@ -17,6 +17,9 @@ FORMAT = pyaudio.paInt16
 RATE = 44100
 
 def press_enter():
+    '''
+    Function to 
+    '''
     while True:
         raw_input('Press enter to stop recording.')
         break
@@ -50,6 +53,14 @@ def trim(snd_data):
             elif snd_started:
                 r.append(i)
         return r
+    # Trim to the left
+    snd_data = _trim(snd_data)
+
+    # Trim to the right
+    snd_data.reverse()
+    snd_data = _trim(snd_data)
+    snd_data.reverse()
+    return snd_data
 
 def add_silence(snd_data, seconds):
     # Add silence to the start and end of 'snd_data' of length 'seconds' (float)

@@ -4,6 +4,7 @@ import librosa
 import pydub
 import pyaudio
 import tflearn
+import numpy as np
 import audio_manip
 
 '''
@@ -14,7 +15,7 @@ Need to figure out how to make this a function.
 training_dir = sys.argv[1]
 training_seg = sys.argv[2]
 
-def create_net(num_layers, dropout, size, learning_rate, activation):
+#def create_net(num_layers, dropout, size, learning_rate, activation):
     # need to create input for shape of data
     # is this even necessary??
 
@@ -35,7 +36,7 @@ speakers = audio_manip.get_speakers(training_dir)
 for f in os.listdir(training_seg):
     Y.append(audio_manip.one_hot_from_item(audio_manip.speaker(f), speakers))
     y, sr = librosa.load(training_seg + f)
-    X.append(audio_manip.mfcc(y=y, sr=sr, num_mfcc=20, hop_length=128, delta=2)
+    X.append(audio_manip.mfcc(y=y, sr=sr, num_mfcc=20, hop_length=128, delta=2))
 
 # define the network for training
 layer_size = 128
@@ -57,4 +58,4 @@ model = tflearn.DNN(net)
 model.fit(X, Y, n_epoch=50, show_metric=True, snapshot_step=1000, run_id=run_id, validation_set=0.1)
 
 # save the model to model_dir
-model.save(model_dir + 'demo.model')
+#model.save(model_dir + 'demo.model')

@@ -1,15 +1,17 @@
 import os
 import sys
 import time
+import librosa
+import numpy as np
 from pydub import AudioSegment as audio
 
 # need to: create mfcc function, train/test set functions
 
 # compute mfcc features using librosa
 def mfcc(y, sr, num_mfcc, hop_length, delta):
-    if delta = 0:
+    if delta == 0:
         return librosa.feature.mfcc(y=y, sr=sr, n_mfcc=num_mfcc, hop_length=hop_length)
-    elif delta = 1:
+    elif delta == 1:
         mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=num_mfcc, hop_length=hop_length)
         delta = librosa.feature.delta(mfcc)
         return np.c_[mfcc,delta]
@@ -20,10 +22,11 @@ def mfcc(y, sr, num_mfcc, hop_length, delta):
         return np.c_[mfcc, delta, delta2]
 
 # segment data function
+# need to fix this!!!!
 def segment(data, seg_location, length):
   os.chdir(data)
   files = os.listdir(data)
-  speakers = speech_data.get_speakers(data)
+  speakers = get_speakers(data)
   waves = []
   num = {}
   for s in speakers:
@@ -38,10 +41,10 @@ def segment(data, seg_location, length):
     end = 1
     while (end*length) < int(w.duration_seconds):
       segment = w[begin*1000*length:end*1000*length]
-      segment.export(speech_data.speaker(f) + '_' +  str(num[speech_data.speaker(f)]) + '.wav', 'wav')
+      segment.export(speaker(f) + '_' +  str(num[speaker(f)]) + '.wav', 'wav')
       begin = begin + length
       end = end + length
-      num[speech_data.speaker(f)] = num[speech_data.speaker(f)] + 1
+      num[speaker(f)] = num[speaker(f)] + 1
 
 # get speaker name from file
 def speaker(file):
